@@ -34,8 +34,8 @@
 
     const clickInterceptor = composeButton.querySelector("div");
 
-    // Use `mousedown` and `mouseup` instead of `click` for Gmail
-    clickInterceptor.addEventListener("mousedown", (event) => {
+    // Use `pointerdown` to capture both touches and mouse clicks
+    clickInterceptor.addEventListener("pointerdown", (event) => {
       event.stopPropagation();
       event.preventDefault();
 
