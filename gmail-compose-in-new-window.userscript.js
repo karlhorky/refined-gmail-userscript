@@ -232,25 +232,29 @@
   };
 
   // Set the app badge with the number of unread emails in inbox
-  // Warning: Only works if you're logged into a single Gmail account
+  //
+  // Warning: This only works with the first Gmail account in your account list.
+  //
   // https://web.dev/badging-api/
-  elementCallbacks['.aim.ain .aio.UKr6le'] = (inboxRowLeftMenu) => {
-    const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
+  if (window.location.href.match(/^https:\/\/mail\.google\.com\/mail\/u\/0/)) {
+    elementCallbacks['.aim.ain .aio.UKr6le'] = (inboxRowLeftMenu) => {
+      const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
 
-    if (!unreadEmailsCountContainer) {
-      navigator.clearAppBadge().catch((err) => {
-        console.error('Error: Failed to clear app badge!');
+      if (!unreadEmailsCountContainer) {
+        navigator.clearAppBadge().catch((err) => {
+          console.error('Error: Failed to clear app badge!');
+          console.error(err);
+        });
+        return;
+      }
+
+      const unreadEmailsCount = unreadEmailsCountContainer.innerText;
+      navigator.setAppBadge(unreadEmailsCount).catch((err) => {
+        console.error('Error: Failed to set app badge!');
         console.error(err);
       });
-      return;
-    }
-
-    const unreadEmailsCount = unreadEmailsCountContainer.innerText;
-    navigator.setAppBadge(unreadEmailsCount).catch((err) => {
-      console.error('Error: Failed to set app badge!');
-      console.error(err);
-    });
-  };
+    };
+  }
 
   const elementCallbacksSelectors = Object.keys(elementCallbacks);
 
