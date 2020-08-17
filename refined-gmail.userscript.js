@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Gmail Compose in New Window
+// @name         Refined Gmail
 // @namespace    https://www.karlhorky.com/
 // @version      1.0
-// @description  Compose, Reply and Forward in New Windows
+// @description  Compose in New Windows, App Badge for Unread Emails
 // @author       Karl Horky
 // @match        https://mail.google.com/mail/u/*
 // @grant        none
