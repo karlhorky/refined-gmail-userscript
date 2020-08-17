@@ -233,31 +233,28 @@
 
   // Set the app badge with the number of unread emails in inbox
   //
-  // Warning: This only works with the first Gmail account in your account list.
-  // This is due to limitations in the App Badging API:
-  //
-  // https://bugs.chromium.org/p/chromium/issues/detail?id=1116852
-  //
   // https://web.dev/badging-api/
-  if (window.location.href.match(/^https:\/\/mail\.google\.com\/mail\/u\/0/)) {
-    elementCallbacks['.aim.ain .aio.UKr6le'] = (inboxRowLeftMenu) => {
-      const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
+  //
+  // To make this work with multiple Gmail accounts, create desktop apps
+  // using the web app manifest trick documented here:
+  // https://github.com/karlhorky/dotfiles/blob/master/tricks/gsuite-google-calendar-chrome-desktop-app-shortcut.md
+  elementCallbacks['.aim.ain .aio.UKr6le'] = (inboxRowLeftMenu) => {
+    const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
 
-      if (!unreadEmailsCountContainer) {
-        navigator.clearAppBadge().catch((err) => {
-          console.error('Error: Failed to clear app badge!');
-          console.error(err);
-        });
-        return;
-      }
-
-      const unreadEmailsCount = unreadEmailsCountContainer.innerText;
-      navigator.setAppBadge(unreadEmailsCount).catch((err) => {
-        console.error('Error: Failed to set app badge!');
+    if (!unreadEmailsCountContainer) {
+      navigator.clearAppBadge().catch((err) => {
+        console.error('Error: Failed to clear app badge!');
         console.error(err);
       });
-    };
-  }
+      return;
+    }
+
+    const unreadEmailsCount = unreadEmailsCountContainer.innerText;
+    navigator.setAppBadge(unreadEmailsCount).catch((err) => {
+      console.error('Error: Failed to set app badge!');
+      console.error(err);
+    });
+  };
 
   const elementCallbacksSelectors = Object.keys(elementCallbacks);
 
