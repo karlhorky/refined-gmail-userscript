@@ -234,6 +234,9 @@
   // Set the app badge with the number of unread emails in inbox
   //
   // Warning: This only works with the first Gmail account in your account list.
+  // This is due to limitations in the App Badging API:
+  //
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=1116852
   //
   // https://web.dev/badging-api/
   if (window.location.href.match(/^https:\/\/mail\.google\.com\/mail\/u\/0/)) {
