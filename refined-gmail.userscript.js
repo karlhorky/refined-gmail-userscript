@@ -238,7 +238,7 @@
   // To make this work with multiple Gmail accounts, create desktop apps
   // using the web app manifest trick documented here:
   // https://github.com/karlhorky/dotfiles/blob/master/tricks/gsuite-google-calendar-chrome-desktop-app-shortcut.md
-  elementCallbacks['.aim.ain .aio.UKr6le'] = (inboxRowLeftMenu) => {
+  elementCallbacks['.aim:first-child .aio.UKr6le'] = (inboxRowLeftMenu) => {
     const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
 
     if (!unreadEmailsCountContainer) {
