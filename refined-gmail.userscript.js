@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @namespace    https://www.karlhorky.com/
-// @version      1.0
+// @version      1.1
 // @description  Compose in New Windows, App Badge for Unread Emails
 // @author       Karl Horky
 // @match        https://mail.google.com/mail/u/*
@@ -145,9 +145,7 @@
   };
 
   /*
-
   FIXME: Buggy, first fix before using
-
   function addShiftToMenuItemClickWithMouseEvent(
     menuItemElement,
     clickableElement,
@@ -155,26 +153,21 @@
     if (!menuItemElement.querySelector('[compose-in-new-window-interceptor]')) {
       // Add element to intercept click
       menuItemElement.innerHTML += clickInterceptorHtml;
-
       const clickInterceptor = menuItemElement.querySelector(
         '[compose-in-new-window-interceptor]',
       );
-
       function handler(event) {
         event.stopPropagation();
-
         dispatchDocumentEvent(clickableElement, 'click', {
           shiftKey: true,
         });
       }
-
       // Both `mousedown` and `pointerdown` are required
       // on menu items for whatever reason
       clickInterceptor.addEventListener('mousedown', handler);
       clickInterceptor.addEventListener('pointerdown', handler);
     }
   }
-
   // Reply menu item at menu at top of thread
   elementCallbacks['.b7.J-M > .J-N:nth-child(1) > .J-N-Jz'] = (
     replyMenuItem,
@@ -184,7 +177,6 @@
       document.querySelector('.Bu div.if .ams.bkH'),
     );
   };
-
   // Reply All menu item at menu at top of thread
   elementCallbacks['.b7.J-M > .J-N:nth-child(2) > .J-N-Jz'] = (
     replyAllMenuItem,
@@ -194,7 +186,6 @@
       document.querySelector('.Bu div.if .ams.bkI'),
     );
   };
-
   // Forward menu item at menu at top of thread
   elementCallbacks['.b7.J-M > .J-N:nth-child(3) > .J-N-Jz'] = (
     forwardMenuItem,
@@ -236,7 +227,11 @@
   // https://web.dev/badging-api/
   //
   // To make this work with multiple Gmail accounts, create desktop apps
-  // using the web app manifest trick documented here:
+  // using the web app manifest trick documented at the link below.
+  //
+  // You will want to use a Gmail URL with the slash at the end, such as:
+  // https://mail.google.com/mail/u/0/
+  //
   // https://github.com/karlhorky/dotfiles/blob/master/tricks/gsuite-google-calendar-chrome-desktop-app-shortcut.md
   elementCallbacks['.aim:first-child .aio.UKr6le'] = (inboxRowLeftMenu) => {
     const unreadEmailsCountContainer = inboxRowLeftMenu.querySelector('.bsU');
