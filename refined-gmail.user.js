@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails
-// @version      1.1.0
+// @version      1.2.0
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -285,3 +285,7 @@ observer.observe(document.body, {
   childList: true,
   subtree: true,
 });
+
+// Wrap titles inside Gmail information cards which appear above emails,
+// in order to prevent email widths getting very large
+document.querySelector('.nH.qY .t1').style.whiteSpace = 'normal';
