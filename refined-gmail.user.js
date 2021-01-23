@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
-// @description  Compose in New Windows, App Badge for Unread Emails
-// @version      1.2.1
+// @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
+// @version      1.3.0
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -286,10 +286,17 @@ observer.observe(document.body, {
   subtree: true,
 });
 
-// Wrap titles inside Gmail information cards which appear above emails,
-// in order to prevent email widths getting very large
 const styleEl = document.createElement('style');
 document.body.appendChild(styleEl);
-styleEl.sheet.insertRule(`.nH.qY .t1 {
-  white-space: normal;
-}`);
+styleEl.sheet.insertRule(
+  // Wrap titles inside Gmail information cards which appear above emails,
+  // in order to prevent email widths getting very large
+  `.nH.qY .t1 {
+    white-space: normal;
+  }` +
+  // Make sender column less wide (subject column is usually longer and more important)
+  `.zA>.yX {
+    flex-basis: 110px;
+    max-width: 110px;
+  }`
+);
