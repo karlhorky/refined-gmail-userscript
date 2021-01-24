@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
-// @version      1.4.0
+// @version      1.5.0
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -302,4 +302,7 @@ document.body.appendChild(styleEl);
 
   // Make date column less wide (subject column is usually longer and more important)
   `.zA>.xW { flex-basis: auto }`,
+
+  // Remove excessive left padding on email contents
+  `.hx .gE + #:12a + div { margin-left: -82px; }`,
 ].forEach((rule) => styleEl.sheet.insertRule(rule));
