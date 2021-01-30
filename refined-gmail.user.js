@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
-// @version      1.5.4
+// @version      1.5.5
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -286,10 +286,7 @@ observer.observe(document.body, {
   subtree: true,
 });
 
-const styleEl = document.createElement('style');
-document.body.appendChild(styleEl);
-
-[
+const rules = [
   // Wrap titles inside Gmail information cards which appear above emails,
   // in order to prevent email widths getting very large
   `.nH.qY .t1 { white-space: normal; }`,
@@ -305,4 +302,9 @@ document.body.appendChild(styleEl);
 
   // Remove excessive left padding on email contents
   `.hx .gE + div + div { margin-left: -63px; }`,
-].forEach((rule) => styleEl.sheet.insertRule(rule));
+];
+
+
+const styleEl = document.createElement('style');
+document.body.appendChild(styleEl);
+rules.forEach((rule) => styleEl.sheet.insertRule(rule));
