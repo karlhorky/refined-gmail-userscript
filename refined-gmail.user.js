@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
-// @version      1.5.5
+// @version      1.5.6
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -301,7 +301,7 @@ const rules = [
   `.zA>.xW { flex-basis: auto }`,
 
   // Remove excessive left padding on email contents
-  `.hx .gE + div + div { margin-left: -63px; }`,
+  `.hx .gE ~ div + div:last-child { margin-left: -63px; }`,
 ];
 
 
