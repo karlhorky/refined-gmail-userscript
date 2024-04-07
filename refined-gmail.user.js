@@ -1,15 +1,47 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
-// @version      1.5.6
+// @version      1.5.7
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
 // @grant        none
 // ==/UserScript==
 
+const CP = 'createPolicy';
+const createPolicy = trustedTypes[CP];
+let createHTML;
+trustedTypes[CP] = function ovr(name, opts) {
+  const p = createPolicy.call(trustedTypes, name, opts);
+  if (!createHTML && (createHTML = p.createHTML)) {
+    const el = document.documentElement.appendChild(
+      document.createElement('div'),
+    );
+    try {
+      el.innerHTML = createHTML.call(p, '');
+      if (trustedTypes[CP] === ovr) delete trustedTypes[CP];
+      const proto = Element.prototype;
+      const { insertAdjacentHTML } = proto;
+      const d = Object.getOwnPropertyDescriptor(proto, 'innerHTML');
+      const { set } = d;
+      d.set = function (val) {
+        set.call(this, createHTML.call(p, val));
+      };
+      Object.defineProperty(proto, 'innerHTML', d);
+      proto.insertAdjacentHTML = function (pos, html) {
+        return insertAdjacentHTML.call(this, pos, createHTML.call(p, html));
+      };
+    } catch (err) {
+      createHTML = null;
+    }
+    el.remove();
+  }
+  return p;
+};
+
 const eventMatchers = {
-  HTMLEvents: /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
+  HTMLEvents:
+    /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
   MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
 };
 
@@ -91,7 +123,7 @@ const clickInterceptorHtml =
 elementCallbacks['.T-I.J-J5-Ji.T-I-KE.L3'] = (composeButton) => {
   if (!composeButton.querySelector('[compose-in-new-window-interceptor]')) {
     // Add element to intercept click
-    composeButton.innerHTML += clickInterceptorHtml;
+    composeButton.insertAdjacentHTML('beforeend', clickInterceptorHtml);
 
     const clickInterceptor = composeButton.querySelector(
       '[compose-in-new-window-interceptor]',
@@ -118,7 +150,7 @@ elementCallbacks['.T-I.J-J5-Ji.T-I-KE.L3'] = (composeButton) => {
 
 function addShiftToClickWithDocumentEvent(element) {
   if (!element.querySelector('[compose-in-new-window-interceptor]')) {
-    element.innerHTML += clickInterceptorHtml;
+    element.insertAdjacentHTML('beforeend', clickInterceptorHtml);
     element
       .querySelector('[compose-in-new-window-interceptor]')
       // Events other than `click` do not work here
@@ -194,17 +226,17 @@ elementCallbacks['.T-I.J-J5-Ji.T-I-Js-IF.aaq.T-I-ax7.L3'] = (
   */
 
 // Reply All button at bottom of thread
-elementCallbacks['.Bu div.if .ams.bkI'] = (threadBottomReplyAllButton) => {
+elementCallbacks['.Wr div.amn .ams.bkI'] = (threadBottomReplyAllButton) => {
   addShiftToClickWithDocumentEvent(threadBottomReplyAllButton);
 };
 
 // Reply button at bottom of thread
-elementCallbacks['.Bu div.if .ams.bkH'] = (threadBottomReplyButton) => {
+elementCallbacks['.Wr div.amn .ams.bkH'] = (threadBottomReplyButton) => {
   addShiftToClickWithDocumentEvent(threadBottomReplyButton);
 };
 
 // Forward button at bottom of thread
-elementCallbacks['.Bu div.if .ams.bkG'] = (threadBottomForwardButton) => {
+elementCallbacks['.Wr div.amn .ams.bkG'] = (threadBottomForwardButton) => {
   addShiftToClickWithDocumentEvent(threadBottomForwardButton);
 };
 
@@ -303,7 +335,6 @@ const rules = [
   // Remove excessive left padding on email contents
   `.hx .gE ~ div + div:last-child { margin-left: -63px; }`,
 ];
-
 
 const styleEl = document.createElement('style');
 document.body.appendChild(styleEl);
