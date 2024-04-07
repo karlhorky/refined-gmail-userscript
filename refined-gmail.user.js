@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Refined Gmail
 // @description  Compose in New Windows, App Badge for Unread Emails, various styling refinements
-// @version      1.5.7
+// @version      1.5.8
 // @author       Karl Horky
 // @namespace    https://www.karlhorky.com/
 // @match        https://mail.google.com/mail/u/*
@@ -226,17 +226,17 @@ elementCallbacks['.T-I.J-J5-Ji.T-I-Js-IF.aaq.T-I-ax7.L3'] = (
   */
 
 // Reply All button at bottom of thread
-elementCallbacks['.Wr div.amn .ams.bkI'] = (threadBottomReplyAllButton) => {
+elementCallbacks['.wR div.amn .ams.bkI'] = (threadBottomReplyAllButton) => {
   addShiftToClickWithDocumentEvent(threadBottomReplyAllButton);
 };
 
 // Reply button at bottom of thread
-elementCallbacks['.Wr div.amn .ams.bkH'] = (threadBottomReplyButton) => {
+elementCallbacks['.wR div.amn .ams.bkH'] = (threadBottomReplyButton) => {
   addShiftToClickWithDocumentEvent(threadBottomReplyButton);
 };
 
 // Forward button at bottom of thread
-elementCallbacks['.Wr div.amn .ams.bkG'] = (threadBottomForwardButton) => {
+elementCallbacks['.wR div.amn .ams.bkG'] = (threadBottomForwardButton) => {
   addShiftToClickWithDocumentEvent(threadBottomForwardButton);
 };
 
